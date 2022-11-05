@@ -2,9 +2,9 @@
 
 > Schrap hierboven wat niet past
 
-- Student: VOORNAAM NAAM
-- Studentennummer: xxxxxxxxx
-- E-mailadres: voornaam.naam@student.hogent.be
+- Student: ACHILLES VANBELLEGHEM
+- Studentennummer: 202185090
+- E-mailadres: achilles.vanbelleghem@student.hogent.be
 
 ## Vereisten
 

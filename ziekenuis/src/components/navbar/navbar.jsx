@@ -1,17 +1,17 @@
-import "./navbar.css";
+import "./NavBar.css";
 import logo from "../../logo.svg"
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
-const Navbar = () => {
+const NavBar = () => {
   return (
     <>
       <nav className="nav">
-        <Link to="/" className="site-logo"><img src={logo} height="75rem" alt="ACHILLES ZIEKENHUIS"></img></Link>
+        <Link to="/"><img src={logo} alt="ACHILLES ZIEKENHUIS" className="site-logo"></img></Link>
         <ul>
-          <CustomLink to="/">Home</CustomLink>
-          <CustomLink to="/dokters">Voor patiënten</CustomLink>
-          <CustomLink to="/vacatures">Vacatures</CustomLink>
-          <CustomLink to="/about">Over ons</CustomLink>   
+          <li><CustomLink to="/">Home</CustomLink></li>   
+          <li><CustomLink to="/dokters">Voor patiënten</CustomLink></li>
+          <li><CustomLink to="/vacatures">Vacatures</CustomLink></li>
+          <li><CustomLink to="/about">Over ons</CustomLink></li>   
         </ul>
       </nav>
     </>
@@ -28,4 +28,4 @@ function CustomLink({to, children, ...props}) {
   );
 }
 
-export default Navbar;
+export default NavBar;

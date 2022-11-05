@@ -1,0 +1,30 @@
+.doctor-card {
+  background-color: white;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0 0 2rem -1rem;
+}
+
+img {
+  padding: 1rem;
+}
+
+button{
+  background-color: #ed7966;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin: 1rem;
+}
+
+button:hover {
+  background-color: #f5cac2;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin: 1rem;
+}

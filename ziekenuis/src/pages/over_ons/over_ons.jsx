@@ -1,4 +1,4 @@
-import "./about.css";
+import "./over_ons.css";
 
 
 const About = () => {

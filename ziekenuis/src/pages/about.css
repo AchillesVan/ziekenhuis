@@ -1,0 +1,17 @@
+.about {
+  background-color: white;
+  border: 1px solid white;
+}
+
+h1 {
+  color: #ed7966;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  font-weight: lighter;
+}
+
+p {
+  display: flex;
+  justify-content: center;
+}

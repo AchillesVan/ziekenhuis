@@ -1,11 +1,7 @@
-.inputs {
-  display: flex;
-  justify-content: center;
-}
-
 .select {
   padding: 1rem;
-  width: 25%;
+  display: flex;
+  justify-content: center;
 }
 
 .doctors {
@@ -23,12 +19,11 @@
   align-self: flex-start;
 }
 
-h1 {
+.header {
   color: #ed7966;
   justify-content: center;
   display: flex;
   width: 100%;
-  font-weight: lighter;
 }
 
 p {

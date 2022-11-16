@@ -2,6 +2,9 @@ import "./voor_patienten.css"
 import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import Select from "react-select"
 import { useState } from "react";
+import { Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from "@chakra-ui/react";
+import AppointmentCard from "../../components/AppointmentCard/AppointmentCard";
 
 const doctors = [
   {
@@ -56,6 +59,7 @@ const specialiteiten = [
 const VoorPatienten = () => {
 
   const [dokters, setDokters] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   let filteredDokters = [];
 
@@ -69,26 +73,29 @@ const VoorPatienten = () => {
     }
   }
 
+  
   return (
     <>
-      <div className="voor_patienten">
-        <h1>Voor patiënten</h1>
-        <p>Een afspraak maken? Dan ben je op de juiste plek. Selecteer een afdeling, kies je dokter en maak nu je afspraak!</p>
-        <div className="inputs">
-          <div className="select">
-            <Select options={specialiteiten} onChange={onChange}/>
-          </div>
-        </div>
-        <div className="doctors">
-          {dokters.map((doctor) => {
+    <Stack>
+      <Heading size='lg' className='header'>Voor patiënten</Heading>
+      <Text>Een afspraak maken? Dan ben je op de juiste plek. Selecteer een afdeling, kies je dokter en maak nu je afspraak!</Text>
+      <div className='select'>
+        <Select options={specialiteiten} onChange={onChange}/>
+      </div>
+      <Flex className='doctors'>
+      {dokters.map((doctor) => {
             return (
               <div>
-                <DoctorCard className="doctor-card" doctor={doctor} />
+                <DoctorCard className="doctor-card" doctor={doctor} onClick={onOpen}/>
               </div>
             )
           })}
-        </div>
-      </div>  
+      </Flex>
+    </Stack>
+
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <AppointmentCard/>
+    </Modal>
     </>
   );
 };

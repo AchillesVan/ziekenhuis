@@ -1,0 +1,10 @@
+.header {
+  color: #ed7966;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+}
+
+.vacature-card {
+  align-self: flex-start;
+}

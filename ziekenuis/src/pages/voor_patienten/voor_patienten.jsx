@@ -2,100 +2,99 @@ import "./voor_patienten.css"
 import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import Select from "react-select"
 import { useState } from "react";
-import { Flex, Heading, Stack, Text } from "@chakra-ui/react";
-import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from "@chakra-ui/react";
-import AppointmentCard from "../../components/AppointmentCard/AppointmentCard";
+import { Flex, Heading, Spacer, Stack, Text,Box } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
+import { doctors } from "../../api/mock-data";
+import { useEffect } from "react";
+import useDokter from "../../api/dokter";
+import { useCallback } from "react";
 
-const doctors = [
-  {
-    foto: require("../../images/doctor.png"),
-    naam: "John Doe",
-    afdeling: "Neurologie",
-    locatie: "Amsterdam",
-  },
-  {
-    foto: require("../../images/doctor.png"),
-    naam: "Achilles Vanbelleghem",
-    afdeling: "Cardiologie",
-    locatie: "Langemark",
-  },
-  {
-    foto: require("../../images/doctor.png"),
-    naam: "Marie Vanbelleghem",
-    afdeling: "Cardiologie",
-    locatie: "Langemark",
-  },
-  {
-    foto: require("../../images/doctor.png"),
-    naam: "Marie Vanbelleghem",
-    afdeling: "Cardiologie",
-    locatie: "Langemark",
-  },
-  {
-    foto: require("../../images/doctor.png"),
-    naam: "Marie Vanbelleghem",
-    afdeling: "Cardiologie",
-    locatie: "Langemark",
-  },
-  {
-    foto: require("../../images/doctor.png"),
-    naam: "Marie Vanbelleghem",
-    afdeling: "Cardiologie",
-    locatie: "Langemark",
-  },{
-    foto: require("../../images/doctor.png"),
-    naam: "Marie Vanbelleghem",
-    afdeling: "Cardiologie",
-    locatie: "Langemark",
-  }
-];
-
-const specialiteiten = [
-  {value: "cardiologie", label: "Cardiologie"},
-  {value: "neurologie", label: "Neurologie"},
-  {value: "psychiatrie", label: "Psychiatrie",}
-];
 
 const VoorPatienten = () => {
 
-  const [dokters, setDokters] = useState([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const dokterApi = useDokter();
+  
+  const [afdelingen, setAfdelingen] = useState();
+  const [dokters, setDokters] = useState([doctors]);
 
-  let filteredDokters = [];
+  const fetchAllDokters = useCallback(async () => {
+    try {
+      const dataObj = await dokterApi.getAll();
+      if(dataObj) {
+        setDokters(dataObj.data);
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }, []);
 
+  const fetchAfdelingen = useCallback(async () => {
+    try {
+      const dataObj = await dokterApi.getAllAfdelingen();
+      if(dataObj) {
+        const afdelingen = dataObj.map(afdeling => {return {value: afdeling.afdeling, label: afdeling.afdeling};});
+        setAfdelingen(afdelingen);
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const fetchAllByAfdeling = useCallback(async (afdeling) => {
+    try {
+      const dataObj = await dokterApi.getAllByAfdeling(afdeling);
+      if(dataObj) {
+        setDokters(dataObj);
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAfdelingen();
+    fetchAllDokters();
+  }, [fetchAfdelingen, fetchAllDokters]);
+
+  const onResetClick = () => {
+    fetchAllDokters();
+  };
   const onChange = (option) => {
-    filteredDokters = doctors.filter(doctor => doctor.afdeling.toLowerCase() === option.value.toLowerCase());
-    if(filteredDokters[0] !== undefined) {
-      setDokters(filteredDokters);
-    }
-    else {
-      setDokters([]);
-    }
+    fetchAllByAfdeling(option.value);
   }
-
   
   return (
     <>
     <Stack>
-      <Heading size='lg' className='header'>Voor patiënten</Heading>
-      <Text>Een afspraak maken? Dan ben je op de juiste plek. Selecteer een afdeling, kies je dokter en maak nu je afspraak!</Text>
-      <div className='select'>
-        <Select options={specialiteiten} onChange={onChange}/>
-      </div>
-      <Flex className='doctors'>
-      {dokters.map((doctor) => {
+      <Flex direction="column" align="center">
+        <Heading size='lg' className='header'>Voor patiënten</Heading>
+        <Text p="3">Een afspraak maken? Dan ben je op de juiste plek. Selecteer een afdeling, kies je dokter en maak nu je afspraak!</Text> 
+      </Flex>
+      <Flex>
+        <Spacer />
+        <Box p="2.5">
+          <Select options={afdelingen} onChange={onChange}/>
+        </Box>
+        <Box p="2.5">
+          <Button onClick={onResetClick}><Text>Toon alle afdelingen</Text></Button>
+        </Box>
+        
+        <Spacer />
+      </Flex>
+      <Flex rowGap="2" justify="flex-start" wrap="wrap" direction="row">
+      {dokters
+          .map((doctor) => {
             return (
-              <div>
-                <DoctorCard className="doctor-card" doctor={doctor} onClick={onOpen}/>
-              </div>
+              <Box p="5">
+                  <DoctorCard doctor={doctor} />
+              </Box>        
             )
           })}
       </Flex>
     </Stack>
-
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <AppointmentCard/>
-    </Modal>
     </>
   );
 };

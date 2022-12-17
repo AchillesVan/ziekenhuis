@@ -4,16 +4,28 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import MyAuth0Provider from './contexts/MyAuth0Provider';
+
+const theme = extendTheme({
+  colors: {
+    brand: {
+      500: '#ff907f',
+      600: '#ed7966',
+    }
+  }
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ChakraProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ChakraProvider>  
+    <MyAuth0Provider>
+      <ChakraProvider theme={theme}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ChakraProvider>   
+    </MyAuth0Provider> 
   </React.StrictMode>
 );
 

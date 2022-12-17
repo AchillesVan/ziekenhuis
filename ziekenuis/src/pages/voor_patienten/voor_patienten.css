@@ -6,6 +6,7 @@
 
 .doctors {
   display: flex;
+  width: 100%;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -24,9 +25,4 @@
   justify-content: center;
   display: flex;
   width: 100%;
-}
-
-p {
-  display: flex;
-  justify-content: center;
 }

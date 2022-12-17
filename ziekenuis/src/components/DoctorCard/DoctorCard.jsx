@@ -1,40 +1,44 @@
 import "./DoctorCard.css";
-import {Card, CardBody, CardFooter, Image, Stack, Heading, Text, Divider, Button } from '@chakra-ui/react';
+import {
+  CardBody,
+  Stack,
+  Heading,
+  Text,
+  Divider,
+  Card,
+  CardFooter,
+  Button,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
-const DoctorCard = ({ doctor }, onClick) => {
-  if(doctor !== null && doctor !== undefined) { 
+const DoctorCard = ({ doctor }) => {
+  if (doctor !== null && doctor !== undefined) {
     return (
       <>
-      <Card className="doctor-card" maxW="sm">
-        <CardBody>
-          <Image 
-            src={doctor.foto} 
-            alt={doctor.naam} 
-            borderRadius='lg'/>
-          <Stack mt='6' spacing='3'>
-            <Heading size='md' spacing='3'>{doctor.naam}</Heading>
-            <Text>
-              {doctor.afdeling}
-            </Text>
-            <Text>
-              {doctor.locatie}
-            </Text>
-          </Stack>
-        </CardBody>
-        <Divider/>
-        <CardFooter>
-          <Button variant='solid' colorScheme='gray' onClick={onClick}>Maak afspraak</Button>                 
-        </CardFooter>
-      </Card>
+        <Card className="doctor-card" maxW="sm">
+          <CardBody>
+            <Stack mt="6" spacing="3">
+              <Heading size="md" spacing="3">
+                {doctor.voornaam + " " + doctor.familienaam}
+              </Heading>
+              <Text>{doctor.afdeling}</Text>
+              <Text>{doctor.locatie}</Text>
+            </Stack>
+          </CardBody>
+          <CardFooter>
+            <Link to={`/appointment/${doctor.riziv_nummer}`}>
+              <Button variant="solid" colorScheme="gray">
+                Maak afspraak
+              </Button>
+            </Link>
+          </CardFooter>
+        </Card>
+        <Divider />
       </>
     );
+  } else {
+    return <></>;
   }
-  else {
-    return (
-      <>
-      </>
-    )
-  };
 };
 
 export default DoctorCard;

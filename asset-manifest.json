@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/ziekenhuis/static/css/main.98cf495e.css",
+    "main.js": "/ziekenhuis/static/js/main.4a0964eb.js",
+    "static/js/787.42e0fad2.chunk.js": "/ziekenhuis/static/js/787.42e0fad2.chunk.js",
+    "static/media/logo.svg": "/ziekenhuis/static/media/logo.02edf7ade0fca1a76c655376cb837fc5.svg",
+    "index.html": "/ziekenhuis/index.html",
+    "main.98cf495e.css.map": "/ziekenhuis/static/css/main.98cf495e.css.map",
+    "main.4a0964eb.js.map": "/ziekenhuis/static/js/main.4a0964eb.js.map",
+    "787.42e0fad2.chunk.js.map": "/ziekenhuis/static/js/787.42e0fad2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.98cf495e.css",
+    "static/js/main.4a0964eb.js"
+  ]
+}

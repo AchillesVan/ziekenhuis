@@ -1,7 +1,7 @@
 import "./Profile.css"
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Flex, Heading, RadioGroup, Stack, Radio } from '@chakra-ui/react';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import useGebruiker from '../../api/gebruiker';
 import useLand from "../../api/land";
 import { Input, FormControl, FormLabel, Button, Select } from '@chakra-ui/react';
@@ -12,21 +12,22 @@ const Profile = () => {
 
   const { user } = useAuth0();
   
-  const [userExists, setUserExists] = useState(false);
   const [edit, setEdit] = useState(false);
+  let userExists = useRef(false);
   const [landen, setLanden] = useState([]);
   const [userObj, setUserObj] = useState({});
 
   const fetchUserByAuth0Id = useCallback(async (auth0Id) => {
+    setUserObj({...userObj, auth0id: auth0Id});
     try {
       const dataObj = await gebruikerApi.getByAuth0(auth0Id);
-      if(dataObj) {
-        setUserExists(true);
-        setUserObj(dataObj);
+      if(Object.keys(dataObj).length > 0) {
+        userExists.current = true;
+        setUserObj({...userObj, ...dataObj});
       }
     }
     catch (error) {
-      console.error(error);
+      
     }
   }, []);
 
@@ -47,7 +48,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchLanden();
-    fetchUserByAuth0Id(user.sub);
+    fetchUserByAuth0Id(user.sub);  
   }, [fetchUserByAuth0Id, user.sub, fetchLanden]);
 
   const onEditClick = () => {
@@ -55,12 +56,23 @@ const Profile = () => {
   };
 
   const onSaveClick = async () => {
-    if(userExists) {
-      await gebruikerApi.updateUser(userObj);
+    if(userExists.current) {
+      try {
+        await gebruikerApi.updateUser(userObj);
+      }
+      catch (error) {
+        console.error(error);
+      }
     }
     else {
-      setUserObj({...userObj, auth0Id: user.sub});
-      await gebruikerApi.createUser(userObj);
+      try {
+        console.log(JSON.stringify(userObj));
+        await gebruikerApi.createUser(userObj);
+        userExists.current = true;
+      }
+      catch (error) {
+        console.error(error);
+      }
     }
     
     setEdit(!edit);

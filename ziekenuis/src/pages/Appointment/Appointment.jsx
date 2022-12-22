@@ -9,17 +9,16 @@ import useGebruiker from "../../api/gebruiker";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Appointment = () => {
-  const { user } = useAuth0();
-  const [userObj, setUserObj] = useState({});
   const [datum, setDatum] = useState(new Date());
   const [tijdsslot, setTijdsslot] = useState("");
   const [tijdssloten, setTijdssloten] = useState([]);
 
-  const gebruikerApi = useGebruiker();
   const agendaslotsApi = useAgendaslots();
+  const gebruikerApi = useGebruiker();
   const navigate = useNavigate();
 
   const riziv = useParams().riziv;
+  const { user } = useAuth0();
 
   function addMinutes(time, minsToAdd) {
     function D(J) {
@@ -57,21 +56,9 @@ const Appointment = () => {
     }
   }, [datum, riziv]);
 
-  const fetchUserByAuth0Id = useCallback(async (auth0Id) => {
-    try {
-      const dataObj = await gebruikerApi.getByAuth0(auth0Id);
-      if (dataObj) {
-        setUserObj(dataObj);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
   useEffect(() => {
     fetchTijdSloten();
-    fetchUserByAuth0Id(user.sub);
-  }, [fetchTijdSloten, fetchUserByAuth0Id, user.sub]);
+  }, [fetchTijdSloten]);
 
   const onDatumChange = (datum) => {
     setDatum(datum);
@@ -83,7 +70,14 @@ const Appointment = () => {
   };
 
   const onSubmit = async () => {
-    console.log(userObj);
+    try {
+      const gebruiker = await gebruikerApi.getByAuth0(user.sub);
+      console.log("Gebruiker: " + JSON.stringify(gebruiker));
+    }
+    catch (error) {
+      
+    }
+    /*
     const date =
       datum.getFullYear().toString() +
       "-" +
@@ -94,11 +88,9 @@ const Appointment = () => {
     const eindTijd = date + " " + addMinutes(tijdsslot.value, 90);
     const agendaSlot = {
       riziv_nummer: riziv,
-      rijksregisternummer: userObj.rijksregisternummer,
       start_tijd: startTijd,
       eind_tijd: eindTijd,
     };
-    console.log(agendaSlot);
     const response = await agendaslotsApi.createAgendaslot(agendaSlot);
     if (response.status === 201) {
       alert("Afspraak gemaakt!");
@@ -106,6 +98,7 @@ const Appointment = () => {
     } else {
       alert("Afspraak maken mislukt, probeer opnieuw!");
     }
+    */
   };
 
   return (

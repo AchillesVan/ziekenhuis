@@ -22,7 +22,7 @@ const useGebruiker = () => {
   const createUser = useCallback(async (user) => {
     const token = await getAccessTokenSilently();
 
-    const res = await axios.post(baseUrl + '/' + user.auth0id, user, {
+    const res = await axios.post(baseUrl, user, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -34,9 +34,7 @@ const useGebruiker = () => {
   const updateUser = useCallback(async (user) => {
     const token = await getAccessTokenSilently();
 
-    const auth0id = user.auth0id.split('|')[1];
-
-    const res = await axios.put(baseUrl + '/' + auth0id, user, {
+    const res = await axios.put(baseUrl + '/' + user.auth0id, user, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

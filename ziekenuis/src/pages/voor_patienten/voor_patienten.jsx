@@ -4,7 +4,6 @@ import Select from "react-select"
 import { useState } from "react";
 import { Flex, Heading, Spacer, Stack, Text,Box } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
-import { doctors } from "../../api/mock-data";
 import { useEffect } from "react";
 import useDokter from "../../api/dokter";
 import { useCallback } from "react";
@@ -15,7 +14,7 @@ const VoorPatienten = () => {
   const dokterApi = useDokter();
   
   const [afdelingen, setAfdelingen] = useState();
-  const [dokters, setDokters] = useState([doctors]);
+  const [dokters, setDokters] = useState([]);
 
   const fetchAllDokters = useCallback(async () => {
     try {

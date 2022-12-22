@@ -5,7 +5,6 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import useGebruiker from '../../api/gebruiker';
 import useLand from "../../api/land";
 import { Input, FormControl, FormLabel, Button, Select } from '@chakra-ui/react';
-import { Formik } from "formik";
 
 const Profile = () => {
   const gebruikerApi = useGebruiker();

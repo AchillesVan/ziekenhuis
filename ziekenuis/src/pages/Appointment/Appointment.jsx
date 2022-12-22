@@ -72,32 +72,36 @@ const Appointment = () => {
   const onSubmit = async () => {
     try {
       const gebruiker = await gebruikerApi.getByAuth0(user.sub);
-      console.log("Gebruiker: " + JSON.stringify(gebruiker));
-    }
-    catch (error) {
-      
-    }
+      if (Object.keys(gebruiker).length !== 0) {
+        const date =
+          datum.getFullYear().toString() +
+          "-" +
+          ("0" + (datum.getMonth() + 1)).slice(-2) +
+          "-" +
+          ("0" + datum.getDate()).slice(-2);
+        const startTijd = date + " " + addMinutes(tijdsslot.value, 60);
+        const eindTijd = date + " " + addMinutes(tijdsslot.value, 90);
+        const agendaSlot = {
+          riziv_nummer: riziv,
+          start_tijd: startTijd,
+          eind_tijd: eindTijd,
+        };
+        const response = await agendaslotsApi.createAgendaslot(agendaSlot);
+        if (response.status === 201) {
+          alert("Afspraak gemaakt!");
+          navigate("/dokters");
+        } else {
+          alert("Afspraak maken mislukt, probeer opnieuw!");
+        }
+      } else {
+        alert("Gelieve uw gegevens in te vullen alvorens een afspraak te maken!");
+        navigate("/profile");
+      }
+    } catch (error) {}
     /*
-    const date =
-      datum.getFullYear().toString() +
-      "-" +
-      ("0" + (datum.getMonth() + 1)).slice(-2) +
-      "-" +
-      ("0" + datum.getDate()).slice(-2);
-    const startTijd = date + " " + addMinutes(tijdsslot.value, 60);
-    const eindTijd = date + " " + addMinutes(tijdsslot.value, 90);
-    const agendaSlot = {
-      riziv_nummer: riziv,
-      start_tijd: startTijd,
-      eind_tijd: eindTijd,
-    };
-    const response = await agendaslotsApi.createAgendaslot(agendaSlot);
-    if (response.status === 201) {
-      alert("Afspraak gemaakt!");
-      navigate("/dokters");
-    } else {
-      alert("Afspraak maken mislukt, probeer opnieuw!");
-    }
+    
+    
+    
     */
   };
 

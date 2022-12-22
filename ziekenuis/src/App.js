@@ -1,4 +1,4 @@
-import NavBar from './components/NavBar/NavBar.jsx';
+import NavBar from './components/NavBar/NavBar';
 import './App.css';
 import Home from './pages/Home/home';
 import Dokters from './pages/voor_patienten/voor_patienten';
